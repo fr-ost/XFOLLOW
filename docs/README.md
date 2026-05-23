@@ -2,7 +2,7 @@
 
 > A premium, production-grade auto-follow extension for X (Twitter). Modular Manifest V3 architecture, intelligent queue, smart filters, human-like safety engine, and a live analytics dashboard.
 
-**Version:** 2.0.0  
+**Version:** 2.0.1  
 **Manifest:** v3  
 **Follow only.** No unfollow features. No monetization. No telemetry. No external servers.
 
