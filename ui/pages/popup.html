@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <title>X Follow Grow</title>
+  <link rel="stylesheet" href="../styles/theme.css" />
+  <link rel="stylesheet" href="../styles/popup.css" />
+</head>
+<body>
+  <div class="popup">
+
+    <!-- ───────────── Sidebar ───────────── -->
+    <nav class="sidebar" aria-label="Pages">
+      <div class="brand-mark" aria-label="X Follow Grow">XF</div>
+
+      <button type="button" class="nav-btn active" data-page="dashboard" aria-label="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <span class="tooltip">Dashboard</span>
+      </button>
+
+      <button type="button" class="nav-btn" data-page="queue" aria-label="Queue mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6"  x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6"  r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/></svg>
+        <span class="tooltip">Queue · paste handles</span>
+      </button>
+
+      <button type="button" class="nav-btn" data-page="walker" aria-label="Walker mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2-3 6-5 9-5s7 2 9 5"/><path d="M3 12c2 3 6 5 9 5s7-2 9-5"/><circle cx="12" cy="12" r="2"/></svg>
+        <span class="tooltip">Walker · scan a page</span>
+      </button>
+
+      <button type="button" class="nav-btn" id="navSettings" aria-label="Settings (opens new window)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 1 1-4 0v-.08a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06A2 2 0 1 1 4.13 16.93l.06-.06A1.7 1.7 0 0 0 4.53 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 1 1 0-4h.08A1.7 1.7 0 0 0 4.53 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06A2 2 0 1 1 6.96 4.24l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 1 1 4 0v.08c0 .67.4 1.27 1.04 1.53.6.26 1.31.13 1.83-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9c.26.64.86 1.04 1.53 1.04H21a2 2 0 1 1 0 4h-.08a1.7 1.7 0 0 0-1.53 1.04z"/></svg>
+        <span class="tooltip">Settings · opens window</span>
+      </button>
+
+      <button type="button" class="nav-btn" data-page="logs" aria-label="Logs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8"  y1="13" x2="16" y2="13"/><line x1="8"  y1="17" x2="14" y2="17"/></svg>
+        <span class="tooltip">Logs</span>
+      </button>
+
+      <div class="spacer"></div>
+
+      <div id="sidebarStatus" class="sidebar-status" title="Idle"></div>
+    </nav>
+
+    <!-- ───────────── Main column ───────────── -->
+    <div class="main">
+      <header class="topbar">
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="topbar-meta">
+          <span id="modeLabel" class="muted">Idle</span>
+          <button type="button" id="themeToggle" class="btn btn-ghost btn-sm" title="Toggle theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="scroll" id="scroll">
+
+        <!-- ─── Dashboard ─── -->
+        <section class="page active" id="page-dashboard">
+
+          <div class="greeting hidden" id="greeting">
+            <img class="greeting-avatar" id="greetingAvatar" src="" alt=""/>
+            <div class="greeting-body">
+              <div class="greeting-hi">Welcome back<span id="greetingName"></span></div>
+              <div class="greeting-handle mono" id="greetingHandle">—</div>
+            </div>
+            <div class="greeting-stat">
+              <div class="greeting-stat-num mono" id="greetingTodayNum">0</div>
+              <div class="greeting-stat-lbl">today</div>
+            </div>
+          </div>
+
+          <div class="mode-pick">
+            <button type="button" class="mode-card" data-go="queue">
+              <div class="mode-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/></svg>
+              </div>
+              <div class="mode-card-body">
+                <div class="mode-card-title">Queue mode</div>
+                <div class="mode-card-desc">Paste handles, follow them one by one</div>
+              </div>
+              <span class="mode-card-arrow">›</span>
+            </button>
+
+            <button type="button" class="mode-card" data-go="walker">
+              <div class="mode-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3 12c2-3 6-5 9-5s7 2 9 5"/><path d="M3 12c2 3 6 5 9 5s7-2 9-5"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div class="mode-card-body">
+                <div class="mode-card-title">Walker mode</div>
+                <div class="mode-card-desc">Walk a followers / following / search page</div>
+              </div>
+              <span class="mode-card-arrow">›</span>
+            </button>
+          </div>
+
+          <div class="stat-grid stagger">
+            <div class="stat">
+              <div class="stat-label">Today</div>
+              <div class="stat-value" id="statToday">0</div>
+              <div class="stat-sub"><span id="statTodaySkipped">0</span> skipped · <span id="statTodayFailed">0</span> failed</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Last hour</div>
+              <div class="stat-value" id="statLastHour">0</div>
+              <div class="stat-sub">cap <span id="statHourCap">30</span></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Success rate</div>
+              <div class="stat-value" id="statSuccessRate">—</div>
+              <div class="stat-sub" id="statTotalFollowed">0 total</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">14-day trend</div>
+              <div class="stat-value" id="statTrendTotal">0</div>
+              <canvas class="sparkline" id="sparkline" width="180" height="28"></canvas>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2>Safety pulse</h2>
+            <span class="muted mono" id="safetyHint">—</span>
+          </div>
+          <div class="pulse">
+            <div class="pulse-head">
+              <span class="pulse-label" id="pulseLabel">
+                <span class="dot" id="pulseDot"></span>
+                <span id="pulseBand">—</span>
+              </span>
+              <span class="pulse-score" id="pulseScore">—</span>
+            </div>
+            <div class="pulse-bar"><div class="pulse-bar-fill" id="pulseFill"></div></div>
+            <div class="pulse-note" id="pulseNote">Adjust delays and caps in Settings to change this score.</div>
+          </div>
+
+          <div class="section-head">
+            <h2>Recent activity</h2>
+            <button type="button" class="btn btn-ghost btn-sm" id="goToLogs">View all</button>
+          </div>
+          <div class="feed" id="recentFeed">
+            <div class="feed-empty">No follows yet. Pick a mode above to begin.</div>
+          </div>
+
+          <div class="credit">
+            <div class="credit-line">
+              Developed by <strong>Shahriar Ahmed</strong>
+            </div>
+            <a class="credit-tg" href="https://t.me/igfrostt" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+              </svg>
+              <span>Contact: @igfrostt</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ─── Queue ─── -->
+        <section class="page" id="page-queue">
+
+          <div class="mode-banner">
+            <div class="mode-banner-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/></svg>
+            </div>
+            <div class="mode-banner-body">
+              <div class="mode-banner-title">Queue mode</div>
+              <div class="mode-banner-desc">Paste a list of handles. Each profile is opened, read, and followed at human pace.</div>
+            </div>
+          </div>
+
+          <div id="timerCard" class="timer hidden">
+            <div class="timer-ring">
+              <svg viewBox="0 0 40 40">
+                <circle class="ring-track" cx="20" cy="20" r="17"/>
+                <circle class="ring-fill"  id="ringFill"  cx="20" cy="20" r="17"
+                        stroke-dasharray="106.81" stroke-dashoffset="106.81"/>
+              </svg>
+            </div>
+            <div class="timer-text">
+              <div class="timer-label" id="timerLabel">Next action in</div>
+              <div class="timer-value" id="timerValue">—</div>
+            </div>
+            <div class="muted mono" id="queueProgress">—</div>
+          </div>
+
+          <div class="row" style="gap: 6px; margin-bottom: 4px;">
+            <button type="button" class="btn btn-primary" id="btnQueueStart" style="flex: 1" disabled>▶ Start queue</button>
+            <button type="button" class="btn btn-ghost"   id="btnQueuePause" disabled>Pause</button>
+            <button type="button" class="btn btn-danger"  id="btnQueueStop"  disabled>Stop</button>
+          </div>
+
+          <div class="section-head">
+            <h2>Add handles</h2>
+            <span class="muted mono" id="handleCount">0</span>
+          </div>
+
+          <div class="queue-input">
+            <textarea id="handleInput" class="textarea"
+              placeholder="@username, @another&#10;or paste a list, one per line, comma or space separated"></textarea>
+            <span class="queue-input-meta" id="parsedCount">0 parsed</span>
+          </div>
+
+          <div class="queue-actions">
+            <button type="button" class="btn" id="btnLoad">Load handles</button>
+            <button type="button" class="btn btn-ghost" id="btnAppend">Append to queue</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnExtractTab">Extract from current tab</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnExtractUrl">Extract from URL…</button>
+          </div>
+
+          <div class="section-head">
+            <h2>Queue</h2>
+            <div class="row" style="gap: 6px;">
+              <span class="muted mono" id="queueSummary">—</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnClearQueue">Clear</button>
+            </div>
+          </div>
+
+          <div id="queueWrap">
+            <div class="queue-list" id="queueList">
+              <div class="empty">
+                <div class="empty-icon">∅</div>
+                <div class="empty-title">No handles loaded</div>
+                <div class="empty-hint">Paste a list above and click Load handles.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Walker mode (follow people on the X page you're viewing) ─── -->
+        <section class="page" id="page-walker">
+
+          <div class="mode-banner">
+            <div class="mode-banner-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3 12c2-3 6-5 9-5s7 2 9 5"/><path d="M3 12c2 3 6 5 9 5s7-2 9-5"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="mode-banner-body">
+              <div class="mode-banner-title">Walker mode</div>
+              <div class="mode-banner-desc">Open someone's followers or following page on X. Walker scrolls and follows accounts that pass your filters.</div>
+            </div>
+          </div>
+
+          <div id="discoverContext" class="discover-context">
+            <span id="ctxText">Open an X.com followers, following, or search page.</span>
+            <span class="ctx-hint">Tip: <code>x.com/&lt;handle&gt;/followers</code> or <code>/following</code>.</span>
+          </div>
+
+          <div class="row" style="gap: 6px; margin-top: 10px;">
+            <button type="button" class="btn btn-primary" id="btnWalkerStart" style="flex: 1">▶ Start walker</button>
+            <button type="button" class="btn btn-ghost"   id="btnWalkerPause" disabled>Pause</button>
+            <button type="button" class="btn btn-danger"  id="btnWalkerStop"  disabled>Stop</button>
+          </div>
+
+          <!-- Live action timer (shown only while running) -->
+          <div id="walkerTimerCard" class="timer hidden">
+            <div class="timer-ring">
+              <svg viewBox="0 0 40 40">
+                <circle class="ring-track" cx="20" cy="20" r="17"/>
+                <circle class="ring-fill"  id="walkerRingFill" cx="20" cy="20" r="17"
+                        stroke-dasharray="106.81" stroke-dashoffset="106.81"/>
+              </svg>
+            </div>
+            <div class="timer-text">
+              <div class="timer-label" id="walkerTimerLabel">Next action in</div>
+              <div class="timer-value mono" id="walkerTimerValue">—</div>
+            </div>
+            <div class="muted mono" id="walkerTimerMeta">—</div>
+          </div>
+
+          <!-- Currently-walking profile preview -->
+          <div id="currentProfileCard" class="profile-card hidden">
+            <div class="profile-card-row">
+              <div class="profile-avatar-wrap">
+                <img class="profile-avatar" id="currentProfileAvatar" src="" alt=""/>
+                <span class="profile-status-dot" id="currentProfileStatusDot"></span>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-name-row">
+                  <span class="profile-name" id="currentProfileName">—</span>
+                  <span class="profile-verified hidden" id="currentProfileVerified" title="Verified">
+                    <svg width="12" height="12" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
+                  </span>
+                </div>
+                <div class="profile-handle mono" id="currentProfileHandle">—</div>
+                <div class="profile-bio" id="currentProfileBio"></div>
+              </div>
+            </div>
+            <div class="profile-status-bar">
+              <span class="profile-status-text" id="currentProfileStatusText">Scanning…</span>
+              <span class="profile-status-time mono" id="currentProfileTime">just now</span>
+            </div>
+          </div>
+
+          <div class="walker-session hidden" id="walkerSession">
+            <div class="walker-stat">
+              <div class="walker-stat-label">Followed this session</div>
+              <div class="walker-stat-value mono" id="walkerFollowed">0</div>
+            </div>
+            <div class="walker-stat">
+              <div class="walker-stat-label">Skipped</div>
+              <div class="walker-stat-value mono" id="walkerSkipped">0</div>
+            </div>
+            <div class="walker-stat">
+              <div class="walker-stat-label">Status</div>
+              <div class="walker-stat-value" id="walkerStatus">—</div>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2>Quick filters</h2>
+            <span class="muted mono">Live · saved on change</span>
+          </div>
+
+          <div class="card">
+            <div class="filter-row">
+              <span><span class="label-text">Verified only</span><span class="help">Only follow blue-check accounts</span></span>
+              <label class="switch"><input type="checkbox" id="fVerifiedOnly"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Skip verified</span><span class="help">Never follow blue-check accounts</span></span>
+              <label class="switch"><input type="checkbox" id="fSkipVerified"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Skip "Follows you"</span><span class="help">Skip accounts that already follow you</span></span>
+              <label class="switch"><input type="checkbox" id="fSkipFollowsMe"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Require profile picture</span><span class="help">Skip default-avatar accounts</span></span>
+              <label class="switch"><input type="checkbox" id="fRequirePic"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Require bio</span><span class="help">Skip empty-bio accounts</span></span>
+              <label class="switch"><input type="checkbox" id="fRequireBio"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Smart scoring</span><span class="help">0–100 quality heuristic</span></span>
+              <label class="switch"><input type="checkbox" id="fSmartScore"/><span class="slider"></span></label>
+            </div>
+            <div class="filter-row">
+              <span><span class="label-text">Quality threshold</span><span class="help">Min score to follow (0–100)</span></span>
+              <input type="number" id="fQualityThreshold" min="0" max="100" step="1" value="55" class="input"/>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2>Keyword filters</h2>
+          </div>
+          <div class="card">
+            <label class="label">Include keywords <span class="muted">comma separated</span></label>
+            <input type="text" id="fInclude" class="input" placeholder="e.g. ai, ml, designer"/>
+            <div style="height: 6px"></div>
+            <label class="label">Exclude keywords <span class="muted">comma separated</span></label>
+            <input type="text" id="fExclude" class="input" placeholder="e.g. crypto, nft, scam"/>
+          </div>
+
+        </section>
+
+        <!-- ─── Logs ─── -->
+        <section class="page" id="page-logs">
+          <div class="section-head">
+            <h2>Activity log</h2>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnClearLog">Clear</button>
+          </div>
+          <div class="log-list" id="logList">
+            <div class="log-empty">No log entries yet.</div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Bottom status strip — visible only when something is running -->
+      <footer class="statusbar hidden" id="statusbar">
+        <div class="statusbar-dot" id="statusbarDot"></div>
+        <div class="statusbar-text">
+          <span id="statusbarMode">—</span>
+          <span class="muted" id="statusbarDetail"></span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" id="statusbarPause">Pause</button>
+        <button type="button" class="btn btn-danger btn-sm" id="statusbarStop">Stop</button>
+      </footer>
+
+      <!-- Toast stack & dialog mount -->
+      <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+      <div id="dialogMount"></div>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

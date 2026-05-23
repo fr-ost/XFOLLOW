@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <title>X Follow Grow — Settings</title>
+  <link rel="stylesheet" href="../styles/theme.css" />
+  <link rel="stylesheet" href="../styles/options.css" />
+</head>
+<body>
+  <div class="options-shell stagger">
+
+    <header class="options-head">
+      <div class="brand">
+        <div class="mark">XF</div>
+        <div>
+          <h1>X Follow Grow</h1>
+          <div class="sub">Smart auto-follow for X/Twitter · v2.0.0</div>
+        </div>
+      </div>
+      <div class="row" style="gap: 6px;">
+        <button type="button" class="btn btn-ghost btn-sm" id="btnExport">Export settings</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnImport">Import</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnTheme">Toggle theme</button>
+        <input type="file" id="fileImport" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <!-- Safety pulse hero -->
+    <section class="pulse-hero" aria-label="Safety pulse">
+      <div class="ring">
+        <svg viewBox="0 0 80 80">
+          <circle class="track" cx="40" cy="40" r="34"/>
+          <circle class="fill"  id="heroRing" cx="40" cy="40" r="34"
+                  stroke-dasharray="213.63" stroke-dashoffset="213.63"/>
+        </svg>
+        <div class="num" id="heroScore">—</div>
+      </div>
+      <div class="body">
+        <span class="label" id="heroLabel">
+          <span class="dot" id="heroDot"></span>
+          <span id="heroBand">—</span>
+        </span>
+        <div class="note" id="heroNote">Adjust delays, caps, and pause cycles below to change this score.</div>
+      </div>
+      <div class="meta">
+        <div class="row"><span id="heroLastHour">0</span> follows in the last hour</div>
+        <div class="row"><span id="heroLastDay">0</span> in the last 24h</div>
+      </div>
+    </section>
+
+    <!-- Two-column groups -->
+    <div class="col-grid">
+
+      <!-- ─── Pacing ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Pacing</div>
+        <div class="opt-body">
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Delay between follows</span>
+              <span class="l-help">Random delay applied between actions, in seconds. Higher is safer.</span>
+            </div>
+            <div class="pair">
+              <input type="number" id="setMinDelay" min="3" step="1" placeholder="min" />
+              <input type="number" id="setMaxDelay" min="5" step="1" placeholder="max" />
+            </div>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Skip-row delay</span>
+              <span class="l-help">List walker delay when a row is skipped (verified, fails filters, etc.)</span>
+            </div>
+            <div class="pair">
+              <input type="number" id="setMinSkip" min="0" step="0.5" placeholder="min" />
+              <input type="number" id="setMaxSkip" min="0" step="0.5" placeholder="max" />
+            </div>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Burst chance</span>
+              <span class="l-help">Probability (0..1) of a quick-burst delay between two actions, simulating a scrolling spree.</span>
+            </div>
+            <input type="number" id="setBurstChance" min="0" max="1" step="0.01" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Warm-up mode</span>
+              <span class="l-help">Halve effective rate for the first 24 hours of new sessions. Recommended for new accounts or after a long break.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setWarmup"/><span class="slider"></span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Caps ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Caps</div>
+        <div class="opt-body">
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Hourly cap</span>
+              <span class="l-help">Stops automation after N successful follows in any rolling hour.</span>
+            </div>
+            <input type="number" id="setHourCap" min="1" max="200" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Daily cap</span>
+              <span class="l-help">Stops automation after N successful follows in any rolling 24h.</span>
+            </div>
+            <input type="number" id="setDayCap" min="1" max="1500" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Long pause trigger</span>
+              <span class="l-help">After this many follows, take a coffee break (random within range).</span>
+            </div>
+            <div class="pair">
+              <input type="number" id="setLpAfterMin" min="3" step="1" placeholder="min" />
+              <input type="number" id="setLpAfterMax" min="3" step="1" placeholder="max" />
+            </div>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Long pause length</span>
+              <span class="l-help">Coffee-break duration, in seconds.</span>
+            </div>
+            <div class="pair">
+              <input type="number" id="setLpMinSec" min="60" step="10" placeholder="min" />
+              <input type="number" id="setLpMaxSec" min="60" step="10" placeholder="max" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Filters ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Filters</div>
+        <div class="opt-body">
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Skip private accounts</span>
+              <span class="l-help">Recommended on. Private profiles count against limits but rarely follow back.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setSkipProtected"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Skip "Follows you"</span>
+              <span class="l-help">Skip accounts that already follow you.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setSkipFollowsMe"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Verified only</span>
+              <span class="l-help">Walker mode: only follow verified (blue check) accounts.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setVerifiedOnly"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Skip verified</span>
+              <span class="l-help">Walker mode: never follow verified accounts.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setSkipVerified"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Require profile picture</span>
+              <span class="l-help">Skip default-avatar accounts (often spam).</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setRequirePic"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Require bio</span>
+              <span class="l-help">Skip accounts with empty bios.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setRequireBio"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Min followers</span>
+              <span class="l-help">0 = disabled. Profile-mode only (data not always visible in walker rows).</span>
+            </div>
+            <input type="number" id="setMinFollowers" min="0" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Max following</span>
+              <span class="l-help">0 = disabled. Skip "follow-everyone" accounts.</span>
+            </div>
+            <input type="number" id="setMaxFollowing" min="0" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Min posts</span>
+              <span class="l-help">0 = disabled. Skip empty/inactive accounts.</span>
+            </div>
+            <input type="number" id="setMinPosts" min="0" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Smart targeting ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Smart targeting</div>
+        <div class="opt-body">
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Smart scoring</span>
+              <span class="l-help">Heuristic 0–100 quality score combining bio length, name realism, follower-ratio, and verification.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setSmartScoring"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Quality threshold</span>
+              <span class="l-help">Minimum quality score to follow. 55 is a balanced default.</span>
+            </div>
+            <input type="number" id="setQualityThreshold" min="0" max="100" step="1" />
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Follow-back filter</span>
+              <span class="l-help">Require a healthy followers/following ratio.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setFollowBackFilter"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Min follow-back ratio</span>
+              <span class="l-help">followers / following must be ≥ this. 0.5 = balanced.</span>
+            </div>
+            <input type="number" id="setMinFollowRatio" min="0" max="5" step="0.05" />
+          </div>
+          <div class="opt-row full">
+            <div>
+              <span class="l-text">Include keywords</span>
+              <span class="l-help">Comma-separated. Bios must contain at least one of these to be eligible.</span>
+            </div>
+            <input type="text" id="setInclude" placeholder="e.g. ai, ml, designer, founder" style="width: 100%; text-align: left;" />
+          </div>
+          <div class="opt-row full">
+            <div>
+              <span class="l-text">Exclude keywords</span>
+              <span class="l-help">Comma-separated. Skips bios containing any of these.</span>
+            </div>
+            <input type="text" id="setExclude" placeholder="e.g. crypto, nft, scam, pump, signals" style="width: 100%; text-align: left;" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Whitelist ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Whitelist</div>
+        <div class="opt-body">
+          <div class="opt-row full">
+            <div>
+              <span class="l-text">Never follow</span>
+              <span class="l-help">Comma- or newline-separated handles. The queue silently skips these.</span>
+            </div>
+            <textarea id="setWhitelist" placeholder="@protected_handle1, @protected_handle2"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Notifications & misc ─── -->
+      <section class="opt-group">
+        <div class="opt-head">Notifications</div>
+        <div class="opt-body">
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Notify on completion</span>
+              <span class="l-help">Show a desktop notification when a queue finishes.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setNotifyDone"/><span class="slider"></span></label>
+          </div>
+          <div class="opt-row">
+            <div>
+              <span class="l-text">Notify on safety halt</span>
+              <span class="l-help">Show a desktop notification when automation auto-stops for safety.</span>
+            </div>
+            <label class="switch"><input type="checkbox" id="setNotifySafety"/><span class="slider"></span></label>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="opt-actions">
+      <button type="button" class="btn btn-danger" id="btnResetAnalytics">Reset analytics</button>
+      <button type="button" class="btn btn-danger" id="btnResetSettings">Reset all settings</button>
+    </div>
+
+    <div class="footer-note">
+      X Follow Grow stores all data locally in your browser. No external servers, no telemetry.
+    </div>
+
+    <div class="credit">
+      <div class="credit-line">
+        Developed by <strong>Shahriar Ahmed</strong>
+      </div>
+      <a class="credit-tg" href="https://t.me/igfrostt" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+        </svg>
+        <span>Contact: @igfrostt</span>
+      </a>
+    </div>
+
+    <div class="toast-stack" id="toastStack" aria-live="polite" style="position: fixed;"></div>
+    <div id="dialogMount"></div>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
