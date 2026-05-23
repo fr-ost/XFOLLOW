@@ -1,0 +1,173 @@
+/* ============================================================
+   X Follow Grow — Options page
+   Full-window settings layout, layered on theme.css.
+   ============================================================ */
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+
+.options-shell {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+}
+
+.options-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.options-head .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.options-head .brand .mark {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r);
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 120% at 30% 20%, var(--accent-glow), transparent 60%),
+    var(--bg-2);
+  color: var(--accent);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  border: 1px solid var(--border);
+}
+.options-head h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 2px;
+}
+.options-head .sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Pulse hero */
+.pulse-hero {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 20px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  margin-bottom: 24px;
+}
+.pulse-hero .ring {
+  position: relative;
+  width: 76px;
+  height: 76px;
+}
+.pulse-hero .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.pulse-hero .ring .track { fill: none; stroke: var(--bg-3); stroke-width: 5; }
+.pulse-hero .ring .fill  { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round;
+                            transition: stroke-dashoffset 400ms var(--ease), stroke 200ms var(--ease); }
+.pulse-hero .ring .num {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 18px; font-weight: 600;
+}
+.pulse-hero .body .label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; padding: 3px 8px; border-radius: var(--r-sm);
+  background: var(--bg-3); border: 1px solid var(--border);
+}
+.pulse-hero .body .note { font-size: 13px; color: var(--text-soft); margin-top: 8px; max-width: 480px; line-height: 1.5; }
+.pulse-hero .meta { font-size: 12px; color: var(--text-muted); text-align: right; }
+.pulse-hero .meta .row { font-family: var(--font-mono); }
+
+/* Grid columns */
+.col-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .col-grid { grid-template-columns: 1fr; }
+}
+
+/* Group cards (reuses settings-group from popup.css if present, but we redefine for standalone) */
+.opt-group {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.opt-group .opt-head {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.opt-group .opt-body { padding: 14px 16px; }
+
+.opt-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.opt-row:last-child { border-bottom: none; }
+.opt-row .l-text { font-size: 13px; color: var(--text); }
+.opt-row .l-help { display: block; font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+.opt-row .v {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text);
+  min-width: 90px; text-align: right;
+}
+.opt-row input[type="number"], .opt-row input[type="text"] {
+  width: 110px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.opt-row .pair {
+  display: grid;
+  grid-template-columns: 90px 90px;
+  gap: 6px;
+}
+.opt-row .pair input { width: 100%; }
+.opt-row textarea {
+  width: 100%;
+  min-height: 70px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.opt-row.full {
+  grid-template-columns: 1fr;
+}
+
+.opt-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.footer-note {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-faint);
+}
